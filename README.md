@@ -1,6 +1,6 @@
 <h1>ExpNo 1 :Developing AI Agent with PEAS Description</h1>
-<h3>Name: Saravanan N</h3>
-<h3>Register Number/Staff Id: TSML006</h3>
+<h3>Name: NANDHIKA P</h3>
+<h3>Register Number: 212223040125 </h3>
 
 
 <h3>AIM:</h3>
@@ -40,3 +40,92 @@
 <p>Treat unhealthy patients in each room. And check for the unhealthy patients in random room</p>
 <h3>STEP 5:</h3>
 <p>Measure the performance parameters: For each treatment performance incremented, for each movement performance decremented</p>
+
+<h2>Program</h2>
+
+```
+import random
+import time
+
+class SecurityAgent:
+    def __init__(self, zones):
+        self.zones = zones
+        
+        self.performance = 100
+        
+        self.risk_scores = {zone: 1 for zone in zones}
+        
+        self.history = []
+
+    def sense_environment(self, zone):
+        """
+        Simulate real-world probability of suspicious activity
+        """
+        probability = random.uniform(0, 1)
+
+        threshold = 0.6 - (self.risk_scores[zone] * 0.05)
+        return probability > threshold
+
+    def choose_zone(self):
+        """
+        Choose zone with highest risk score
+        """
+        return max(self.risk_scores, key=self.risk_scores.get)
+
+    def act(self, zone, detected):
+        """
+        Take action based on detection
+        """
+        print(f"\nScanning {zone}...")
+        time.sleep(1)
+
+        if detected:
+            print(f"⚠ Suspicious activity detected in {zone}!")
+            print("Alert triggered!")
+            self.performance += 20
+            self.risk_scores[zone] += 2
+
+        else:
+            print(f"No suspicious activity in {zone}.")
+
+            # Chance of false assumption
+            if random.choice([True, False]):
+                print("Missed suspicious activity!")
+                self.performance -= 5
+                self.risk_scores[zone] += 1
+            else:
+                self.performance -= 1
+                self.risk_scores[zone] = max(1, self.risk_scores[zone] - 1)
+
+        self.performance -= 1
+
+        self.history.append((zone, detected))
+
+        print(f"Updated Risk Scores: {self.risk_scores}")
+        print(f"Current Performance: {self.performance}")
+
+    def run(self, cycles=8):
+        for _ in range(cycles):
+            zone = self.choose_zone()
+            detected = self.sense_environment(zone)
+            self.act(zone, detected)
+
+        print("\n=== FINAL REPORT ===")
+        print("Final Performance:", self.performance)
+        print("Detection History:", self.history)
+
+zones = ["Zone A", "Zone B", "Zone C", "Zone D"]
+
+agent = SecurityAgent(zones)
+
+agent.run()
+```
+
+<h2>Output</h2>
+
+<img width="1231" height="530" alt="image" src="https://github.com/user-attachments/assets/15981582-446a-4e58-a7cb-f1e7d5288b1b" />
+
+<h2>Result</h2>
+Thus, to find the PEAS description for the given AI problem and develop an AI agent is executed successfully.
+
+
